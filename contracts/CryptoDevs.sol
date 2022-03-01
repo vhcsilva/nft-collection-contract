@@ -33,6 +33,12 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
         whitelist = IWhitelist(whitelistContract);
     }
 
+    function startPresale() public onlyOwner {
+        presaleStarted = true;
+
+        presaleEnded = block.timestamp + 5 minutes;
+    }
+
     function presaleMint() public payable onlyWhenNotPaused {
         require(presaleStarted && block.timestamp < presaleEnded, "Presale is not running");
         require(whitelist.whitelistedAddresses(msg.sender), "You are not whitelisted");
